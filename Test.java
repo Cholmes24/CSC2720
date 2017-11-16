@@ -1,4 +1,6 @@
-package Constructs;
+//package Constructs;
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 
 public class Test {
@@ -9,5 +11,18 @@ public class Test {
 			System.out.println(a.getFullTitle());
 			a=new Employee(1);
 			System.out.println(a.getFullTitle());
+			
+
+			
+			System.out.println(a.clock());
+			try {
+				TimeUnit.SECONDS.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println(a.clock());
+			
+			
 	}
 }

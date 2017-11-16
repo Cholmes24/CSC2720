@@ -1,5 +1,9 @@
-package Constructs;
+//package Constructs;
 import java.sql.*;
+import java.util.Calendar;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Stack;
 public class Employee {
 	private int ID;
 	private String firstName;
@@ -9,8 +13,10 @@ public class Employee {
 	private String clockIn;
 	private String clockOut;
 	private String sqlCommand;
+	private boolean working;
 	public Employee(int ID) {
 		this.ID=ID;
+		working = false;
 		sqlCommand="insert into Employee (Last_Name,First_Name,Job_Title,SSN) values('"+lastName+"','"+firstName+"','"+title+"',"+ssn+");";
 		Connection conn=null;
 		try {
@@ -35,6 +41,7 @@ public class Employee {
 		this.firstName=firstName;
 		this.title=title;
 		this.ssn=ssn;
+		working = false;
 		sqlCommand="insert into Employee (Last_Name,First_Name,Job_Title,SSN) values('"+lastName+"','"+firstName+"','"+title+"',"+ssn+");";
 		Connection conn=null;
 		try {
@@ -80,6 +87,59 @@ public class Employee {
 	}
 	public String getHours() {
 		return "The employee works from "+clockIn+" to "+clockOut;
+	}
+	
+	public String clock () {
+		DateFormat df = new SimpleDateFormat("MM/dd/yy HH:mm:ss");
+		Calendar calobj = Calendar.getInstance();
+		
+		if (!working) {
+			working = true;
+			clockIn = df.format(calobj.getTime());
+			return clockIn;
+		}
+		else {
+			working = false;
+			clockOut = df.format(calobj.getTime());
+			System.out.println(timeWorked());
+			return clockOut;
+		}
+	}
+	public String timeWorked() {
+		String inTime = clockIn.replaceAll("[\\D]",  " ");
+		String outTime = clockOut.replaceAll("[\\D]", " ");
+		System.out.println(inTime);
+		System.out.println(outTime);
+		System.out.println();
+		
+		Stack<Integer> inNums = new Stack<Integer>();
+		Stack<Integer> outNums = new Stack<Integer>();
+		int index = 0;
+		for (int i = 0; i < inTime.length(); i++) {
+			if(inTime.charAt(i) == ' ') {
+				inNums.push(Integer.parseInt(inTime.substring(index, i)));
+				index = i+1;
+			}
+		}
+		inNums.push(Integer.parseInt(inTime.substring(index, inTime.length())));
+		
+		index = 0;
+		for (int i = 0; i < outTime.length(); i++) {
+			if(outTime.charAt(i) == ' ') {
+				outNums.push(Integer.parseInt(outTime.substring(index, i)));
+				index = i+1;
+			}
+		}
+		outNums.push(Integer.parseInt(outTime.substring(index, outTime.length())));
+		
+		
+		int secDiff = (outNums.pop() + 60*(outNums.pop() + 60*(outNums.pop()))) - (inNums.pop() + 60*(inNums.pop() + 60*(inNums.pop())));
+		System.out.println(secDiff);
+		int hours = secDiff/3600;
+		int mins = (secDiff%3600)/60;
+		int secs = (secDiff%3660);
+		
+		return "Time worked today: " + hours + ":" + mins + ":" + secs;
 	}
 
 
