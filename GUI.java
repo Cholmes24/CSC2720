@@ -9,8 +9,8 @@ public class GUI extends JFrame implements ActionListener{
 	private JLabel validLabel;
 	private JButton verifyButton;
 	 public GUI(){
-	        setTitle("Tutorial");
-	        setSize(960,960);
+	        setTitle("Schedule");
+	        setSize(800,800);
 	        setVisible(true);
 	        setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    }
@@ -28,7 +28,7 @@ public class GUI extends JFrame implements ActionListener{
 	        g.drawOval(240,240,200,200);
 	        g.fillOval(240, 240, 200, 200);
 	        String[] columns = new String[] {"Id", "Name", "Hourly Rate"};
-	        Object[][] data = new Object[][] {{1, "John", 40.0, false },{2, "Rambo", 70.0, false },{3, "Zorro", 60.0, true }};
+	        Object[][] data = new Object[][] {{1, "Bob", 38.0, false },{2, "Lisa", 20.0, false },{3, "Johnny", 78.0, true }};
 	        JTable table = new JTable(data, columns);
 	        this.add(new JScrollPane(table));
 	        this.setTitle("Table");
@@ -38,7 +38,8 @@ public class GUI extends JFrame implements ActionListener{
 	    }
 	public static void main (String[] args){
 		GUI gui=new GUI();
-		new GUI();GUI t = new GUI();
+		new GUI();
+		GUI Gui = new GUI();
         t.paint(null);
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
