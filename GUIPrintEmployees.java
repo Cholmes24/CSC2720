@@ -11,10 +11,9 @@ public class GUIPrintEmployees extends JFrame implements ActionListener {
 	    private JPanel form;
 	    private JLabel heading;
 	    private ButtonGroup employeetype;
-	    private JPanel titlepanel, departmentpanel;
+	    private JPanel titlepanel;
 	    private JRadioButton worker;
-	    private JRadioButton manager;
-	    private JTextField name, title, salary,  department;
+	    private JTextField name, title, salary;
 	    private JButton create;
 	    public GUIPrintEmployee(ArrayList<Employee> model, EmployeeListView parentview) {
 	        model = model;
@@ -77,7 +76,7 @@ public void Employee() {
 	            String selected = employeetype.getSelection().getActionCommand();
 	            if (selected == "worker") {
 	                String department = department.getText();
-	                New = new Worker(name,  salary, department);
+	                New = new Employee(name,  salary, department);
 	            }
 	            model.add(New);
 	            Painter.repaint(parentview);
