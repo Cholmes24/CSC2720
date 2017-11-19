@@ -27,17 +27,11 @@ public class GUI extends JFrame implements ActionListener{
 	        g.setColor(Color.DARK_GRAY);
 	        g.drawOval(240,240,200,200);
 	        g.fillOval(240, 240, 200, 200);
-	        String[] columns = new String[] {
-	            "Id", "Name", "Hourly Rate", "Part Time"
-	        };
-	        Object[][] data = new Object[][] {
-	            {1, "John", 40.0, false },
-	            {2, "Rambo", 70.0, false },
-	            {3, "Zorro", 60.0, true },
-	        };
+	        String[] columns = new String[] {"Id", "Name", "Hourly Rate"};
+	        Object[][] data = new Object[][] {{1, "John", 40.0, false },{2, "Rambo", 70.0, false },{3, "Zorro", 60.0, true }};
 	        JTable table = new JTable(data, columns);
 	        this.add(new JScrollPane(table));
-	        this.setTitle("Table Example");
+	        this.setTitle("Table");
 	        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);       
 	        this.pack();
 	        this.setVisible(true);
@@ -49,8 +43,7 @@ public class GUI extends JFrame implements ActionListener{
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 new GUI();
-            }
-        });
+            }});
 	}
 }
 
