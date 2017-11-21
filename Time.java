@@ -10,6 +10,6 @@ public class Time {
 		seconds=s;
 	}
 	public String toString() {
-		return "Time worked today: " + hour + ":" + minutes + ":" + seconds;
+		return  hour + ":" + minutes + ":" + seconds;
 	}
 }

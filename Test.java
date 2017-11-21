@@ -16,7 +16,17 @@ public class Test {
 			System.out.println(a.getContact());
 			System.out.println(a.getEmergencyContact().getPrimaryContact());
 			System.out.println(a.getEmergencyContact().getAllContacts());
-			
+			int [] c=a.getAllEID();
+			for(int i=0;i<c.length;i++) {
+				System.out.print(c[i]+" ");
+			}
+			a=new Employee(1);
+			a.createShift("2017-11-24", "8:00", "9:00");
+			a.createShift("2017-11-27", "12:00", "14:00");
+			a=new Employee(2);
+			a.createShift("2017-11-24", "8:00", "9:00");
+			a.createShift("2017-11-26", "12:00", "14:00");
+			System.out.println(a.getShifts().getAllShifts());
 	}
 }
 //TODO Auto-generated method stub

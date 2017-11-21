@@ -13,7 +13,7 @@ public class EmployeeShifts {
 	private int day;
 	private String clockIn;
 	private String clockOut;
-	private Time timeWorked;
+	private Time workedTime;
 	private int EID;
 	private boolean working;
 	private String sqlCommand;
@@ -21,21 +21,8 @@ public class EmployeeShifts {
 		this.shift=shift;
 		this.clockIn=clockIn;
 		this.clockOut=clockOut;
-		sqlCommand="insert into Shifts (Day,Shift,Shift_Clock_In,Shift_Clock_Out,employee_Employee_ID) values(DAYOFWEEK('"+shift+"'),'"+shift+"','"+clockIn+"','"+clockOut+"',"+EID+");";
-		Connection conn=null;
-		try {
-			conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/Manager?useSSL=false","student","student");
-			Statement stmnt = conn.createStatement();
-			stmnt.executeUpdate(sqlCommand);
-			conn.close();
-		}catch (Exception exc) {
-			exc.printStackTrace();
-		}
-	}
-	public EmployeeShifts(String shift,int EID ) {
-		this.shift=shift;
-		this.EID=EID;
-		sqlCommand="insert into Shifts (Day,Shift,Flex,employee_Employee_ID) values(DAYOFWEEK('"+shift+"'),'"+shift+"',"+EID+");";
+		timeWorked();
+		sqlCommand="insert into Shifts (Day,Shift,Shift_Clock_In,Shift_Clock_Out,Hours_Worked,employee_Employee_ID) values(DAYOFWEEK('"+shift+"'),'"+shift+"','"+clockIn+"','"+clockOut+"','"+workedTime.toString()+"',"+EID+");";
 		Connection conn=null;
 		try {
 			conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/Manager?useSSL=false","student","student");
@@ -58,11 +45,15 @@ public class EmployeeShifts {
 				this.shift=reslt.getString("Shift");
 				this.clockIn=reslt.getString("Shift_Clock_In");
 				this.clockOut=reslt.getString("Shift_Clock_Out");
+				timeWorked();
 			}
 			conn.close();
 		}catch (Exception exc) {
 			exc.printStackTrace();
 		}
+	}
+	public String getShift() {
+		return "This Employee works on this Date: "+shift+" from "+clockIn+" to "+clockOut;
 	}
 	public String getShiftsOnThisDay(int day) {
 		String all=null;
@@ -93,7 +84,7 @@ public class EmployeeShifts {
 		try {
 			conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/Manager?useSSL=false","student","student");
 			Statement stmnt = conn.createStatement();
-			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Shifts WHERE Shift="+day+" AND WHERE EID="+EID);
+			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Shifts WHERE Shift="+day+" AND WHERE employee_Employee_ID="+EID);
 			all="";
 			while(reslt.next()) {
 				all+="\nDate: "+reslt.getString("Name");
@@ -133,6 +124,33 @@ public class EmployeeShifts {
 			return "ERROR!!! Something Went Wrong";
 		}
 	}
+	public String getAllShifts() {
+		String all=null;
+		Connection conn=null;
+		try {
+			conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/Manager?useSSL=false","student","student");
+			Statement stmnt = conn.createStatement();
+			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Shifts");
+			all="";
+			while(reslt.next()) {
+				all+="\nDate: "+reslt.getString("Shift");
+				all+="\nClock in time: "+reslt.getString("Shift_Colck_In");
+				all+="\nClock out time: "+reslt.getInt("Shift_Clock_Out");
+			}
+			conn.close();
+		}catch (Exception exc) {
+			exc.printStackTrace();
+		}
+		if(all!=null) {
+			return all;
+		}else {
+			return "ERROR!!! Something Went Wrong";
+		}
+	}
+	void setShift(String shift, String clockIn, String clockOut) {
+		this.shift=shift;
+		sqlCommand="UPDATE Shifts SET shift="+shift+", Shift_Clock_In="+clockIn+", Shift_Clock_Out"+clockOut+" WHERE employee_Employee_ID="+EID+" AND WHERE Day="+day;
+	}
 	void setScheduleForTheYear() {
 		sqlCommand="CALL SetSchedule(DAYOFWEEK('"+shift+"'),'"+shift+"','"+clockIn+"','"+clockOut+"',"+EID+");";
 		SQLInterface();
@@ -160,7 +178,7 @@ public class EmployeeShifts {
 		else {
 			working = false;
 			clockOut = df.format(calobj.getTime());
-			System.out.println(timeWorked.toString());
+			System.out.println(workedTime.toString());
 			return "They end at: "+clockOut;
 		}
 	}
@@ -199,7 +217,7 @@ public class EmployeeShifts {
 		int secs = (secDiff%3660);
 		
 		
-		timeWorked=new Time(hours,mins,secs);
+		workedTime=new Time(hours,mins,secs);
 	}
 }
 
