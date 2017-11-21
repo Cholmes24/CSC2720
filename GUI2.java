@@ -1,16 +1,20 @@
+package Constructs;
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 public class GUI2 {
-	private JFrame frame;
-	private JTextField numberField;
-	private JLabel validLabel;
-	private JButton verifyButton;
+	JFrame frame;
+	JTextField numberField;
+	JLabel validLabel;
+	JButton verifyButton;
 	public GUI2(){
 		numberField=new JTextField(16);
 		validLabel=new JLabel("not verified");
@@ -23,27 +27,28 @@ public class GUI2 {
 		frame.add(verifyButton);
 		frame.add(validLabel);
 		frame.setVisible(true);
-	}
-	public boolean Confirm(String text){
-		int sum=0;
-		for(int i=text.length()-1;i>=0;i--){
-			int digit=Integer.parseInt(text.substring(i, i+1));
-			if(i%2==0){
-				digit*=2;
+		verifyButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event){
+				String text=numberField.getText();
+				if(Confirm(Integer.valueOf(text))){
+					validLabel.setText("Valid number!");
+				}else{
+					validLabel.setText("Invalid number!");
+				}
 			}
-			sum+=(digit/10)+(digit%10);
-		}
-		return sum%10==0&&text.startsWith("4");
+		});
 	}
-	public void actionPerformed(ActionEvent event){
-		String text=numberField.getText();
-		if(Confirm(text)){
-			validLabel.setText("Valid number!");
-		}else{
-			validLabel.setText("Invalid number!");
+	public boolean Confirm(int text){
+		Employee a= new Employee();
+		int [] b=a.getAllEID();
+		for(int i=0;i<b.length;i++) {
+			if(b[i]==text) {
+				return true;
+			}
 		}
+		return false;
 	}
 	public static void main (String[] args){
-		GUI2 gui=new GUI2();							
+		GUI2 gui=new GUI2();	
 	}
 }
