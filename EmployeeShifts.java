@@ -1,4 +1,4 @@
-package Constructs;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -199,7 +199,6 @@ public class EmployeeShifts {
 			}
 		}
 		inNums.push(Integer.parseInt(inTime.substring(index, inTime.length())));
-		
 		index = 0;
 		for (int i = 0; i < outTime.length(); i++) {
 			if(outTime.charAt(i) == ' ') {
@@ -208,9 +207,13 @@ public class EmployeeShifts {
 			}
 		}
 		outNums.push(Integer.parseInt(outTime.substring(index, outTime.length())));
-		
-		
-		int secDiff = (outNums.pop() + 60*(outNums.pop() + 60*(outNums.pop()))) - (inNums.pop() + 60*(inNums.pop() + 60*(inNums.pop())));
+		int secDiff;
+		if(inNums.size() == 2 && outNums.size() == 2)
+			secDiff = (60*(outNums.pop() + 60*(outNums.pop()))) - (60*(inNums.pop() + 60*(inNums.pop())));
+		else if(inNums.size() == 3 && outNums.size() == 3)
+			secDiff = (outNums.pop() + 60*(outNums.pop() + 60*(outNums.pop()))) - (inNums.pop() + 60*(inNums.pop() + 60*(inNums.pop())));
+		else
+			secDiff = -1;
 		System.out.println(secDiff);
 		int hours = secDiff/3600;
 		int mins = (secDiff%3600)/60;
