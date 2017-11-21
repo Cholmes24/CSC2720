@@ -13,7 +13,7 @@ public class Test {
 			System.out.println(a.getFullTitle());
 			a.createEmergencyContact("My Guy","123 Mushroom Kingdom", 123456789);
 			a.createEmergencyContact("shy Guy","321 Mushroom Kingdom", 000000000);
-			//System.out.println(a.getContact());
+			System.out.println(a.getContact());
 			System.out.println(a.getEmergencyContact().getPrimaryContact());
 			System.out.println(a.getEmergencyContact().getAllContacts());
 			

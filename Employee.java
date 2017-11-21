@@ -118,6 +118,10 @@ public class Employee {
 	public EmergencyContact getEmergencyContact() {
 		return a;
 	}
+	public EmergencyContact accessEmergencyContact(int contactID) {
+		a=new EmergencyContact(contactID);
+		return a;
+	}
 	public void SQLInterface() {
 		Connection conn=null;
 		try {

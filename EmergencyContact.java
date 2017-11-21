@@ -50,8 +50,8 @@ public class EmergencyContact {
 			exc.printStackTrace();
 		}
 	}
-	public String getContact() {
-		return "Name: "+name+"\nADDRESS: "+address+"\nPHONE NUMBER: "+phone;
+	public String getRecentContact() {
+		return "Name: "+name+"\nADDRESS: "+address+"\nPhone Number: "+phone;
 	}
 	public String getPrimaryContact() {
 		int phone=0;
