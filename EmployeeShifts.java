@@ -1,4 +1,4 @@
-
+package Constructs;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -210,7 +210,7 @@ public class EmployeeShifts {
 		outNums.push(Integer.parseInt(outTime.substring(index, outTime.length())));
 		
 		
-		int secDiff = (60*(outNums.pop() + 60*(outNums.pop()))) - (60*(inNums.pop() + 60*(inNums.pop())));
+		int secDiff = (outNums.pop() + 60*(outNums.pop() + 60*(outNums.pop()))) - (inNums.pop() + 60*(inNums.pop() + 60*(inNums.pop())));
 		System.out.println(secDiff);
 		int hours = secDiff/3600;
 		int mins = (secDiff%3600)/60;
