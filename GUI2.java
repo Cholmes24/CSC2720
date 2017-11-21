@@ -1,49 +1,54 @@
+package Constructs;
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
 public class GUI2 {
-	private JFrame Frame;
-	private JTextField number;
-	private JLabel valid;
-	private JButton verify;
+	JFrame frame;
+	JTextField numberField;
+	JLabel validLabel;
+	JButton verifyButton;
 	public GUI2(){
-		number=new JTextField(16);
-		valid=new JLabel("not verified");
-		verify=new JButton("Verify Employee Number");
-		Frame=new JFrame("Employee number verifier");
-		Frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Frame.setSize(new Dimension(350,100));
-		Frame.setLayout(new FlowLayout());
-		Frame.add(number);
-		Frame.add(verify);
-		Frame.add(valid);
-		Frame.setVisible(true);
-	}
-	public void actionPerformed(ActionEvent Event){
-		String word=number.getText();
-		if(check(word)){
-			valid.setText("This is a valid number!");
-		}else{
-			valid.setText("This is a invalid number!");
-		}
-	}
-	public boolean check(String word){
-		int add=0;
-		int i,digit;
-		for(i=word.length()-1;i>-1;i--){
-			digit=Integer.parseInt(word.substring(i, i+1));
-			if(i%2==0){
-				(digit*=2);
+		numberField=new JTextField(16);
+		validLabel=new JLabel("not verified");
+		verifyButton=new JButton("Verify Employee Number");
+		frame=new JFrame("Employee number verifier");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(new Dimension(350,100));
+		frame.setLayout(new FlowLayout());
+		frame.add(numberField);
+		frame.add(verifyButton);
+		frame.add(validLabel);
+		frame.setVisible(true);
+		verifyButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event){
+				String text=numberField.getText();
+				if(Confirm(Integer.valueOf(text))){
+					validLabel.setText("Valid number!");
+				}else{
+					validLabel.setText("Invalid number!");
+				}
 			}
-			add+=((digit/10)+(digit%10));
+		});
+	}
+	public boolean Confirm(int text){
+		Employee a= new Employee();
+		int [] b=a.getAllEID();
+		for(int i=0;i<b.length;i++) {
+			if(b[i]==text) {
+				return true;
+			}
 		}
-		return add%10==0 && word.startsWith("4");
+		return false;
 	}
 	public static void main (String[] args){
-		GUI2 gui=new GUI2();							
+		GUI2 gui=new GUI2();	
 	}
 }
