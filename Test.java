@@ -20,6 +20,7 @@ public class Test {
 			for(int i=0;i<c.length;i++) {
 				System.out.print(c[i]+" ");
 			}
+			System.out.println();
 			a=new Employee(1);
 			a.createShift("2017-11-24", "8:00", "9:00");
 			a.createShift("2017-11-27", "12:00", "14:00");

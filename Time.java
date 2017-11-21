@@ -12,4 +12,7 @@ public class Time {
 	public String toString() {
 		return  hour + ":" + minutes + ":" + seconds;
 	}
+	public double toDecimal() {
+		return  hour+(int)((minutes/60.0+seconds/3600.0)*100+.5)/100.0;
+	}
 }
