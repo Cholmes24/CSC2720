@@ -19,7 +19,7 @@ public class Employee {
 		try {
 			conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/Manager?useSSL=false","student","student");
 			Statement stmnt = conn.createStatement();
-			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Employee WHERE EMPLOYEE_ID="+ID);
+			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Employee WHERE EMPLOYEE_ID="+ID+";");
 			if(reslt.next()) {
 				this.lastName=reslt.getString("Last_Name");
 				this.firstName=reslt.getString("First_Name");
@@ -36,13 +36,13 @@ public class Employee {
 		this.firstName=firstName;
 		this.title=title;
 		this.ssn=ssn;
-		sqlCommand="insert into Employee (Last_Name,First_Name,Job_Title,SSN) values('"+lastName+"','"+firstName+"','"+title+"',"+ssn+");";
+		sqlCommand="INSERT INTO Employee (Last_Name,First_Name,Job_Title,SSN) values(\""+lastName+"\",\""+firstName+"\",\""+title+"\","+ssn+");";
 		Connection conn=null;
 		try {
 			conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/Manager?useSSL=false","student","student");
 			Statement stmnt = conn.createStatement();
 			stmnt.executeUpdate(sqlCommand);
-			ResultSet reslt = stmnt.executeQuery("SELECT Employee_ID FROM Employee WHERE SSN="+ssn);
+			ResultSet reslt = stmnt.executeQuery("SELECT Employee_ID FROM Employee WHERE SSN="+ssn+";");
 			if(reslt.next()) {
 				this.ID=reslt.getInt("Employee_ID");
 			}
@@ -58,13 +58,13 @@ public class Employee {
 		this.ssn=ssn;
 		this.address=address;
 		this.phone=phone;
-		sqlCommand="insert into Employee (Last_Name,First_Name,Job_Title,SSN,Address,Phone_Number) values('"+lastName+"','"+firstName+"','"+title+"',"+ssn+",'"+address+"',"+phone+");";
+		sqlCommand="INSERT INTO Employee (Last_Name,First_Name,Job_Title,SSN,Address,Phone_Number) values(\""+lastName+"\",\""+firstName+"\",\""+title+"\","+ssn+",\""+address+"\","+phone+");";
 		Connection conn=null;
 		try {
 			conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/Manager?useSSL=false","student","student");
 			Statement stmnt = conn.createStatement();
 			stmnt.executeUpdate(sqlCommand);
-			ResultSet reslt = stmnt.executeQuery("SELECT Employee_ID FROM Employee WHERE SSN="+ssn);
+			ResultSet reslt = stmnt.executeQuery("SELECT Employee_ID FROM Employee WHERE SSN="+ssn+";");
 			if(reslt.next()) {
 				this.ID=reslt.getInt("Employee_ID");
 			}
@@ -109,32 +109,32 @@ public class Employee {
 	}
 	public void setLastName(String name) {
 		this.lastName=name;
-		this.sqlCommand="UPDATE Employee SET Last_Name="+lastName+"WHERE Employee_ID="+ID;
+		this.sqlCommand="UPDATE Employee SET Last_Name=\""+lastName+"\" WHERE Employee_ID="+ID+";";
 		SQLInterface();
 	}
 	public void setFirstName(String name) {
 		this.firstName=name;
-		this.sqlCommand="UPDATE Employee SET First_Name='"+firstName+"' WHERE Employee_ID="+ID;
+		this.sqlCommand="UPDATE Employee SET First_Name=\""+firstName+"\" WHERE Employee_ID="+ID+";";
 		SQLInterface();
 	}
 	public void setJob_Title(String t) {
 		this.title=t;
-		this.sqlCommand="UPDATE Employee SET Job_Title='"+title+"' WHERE Employee_ID="+ID;
+		this.sqlCommand="UPDATE Employee SET Job_Title=\""+title+"\" WHERE Employee_ID="+ID+";";
 		SQLInterface();
 	}
 	public void setSSN(int n) {
 		this.ssn=n;
-		this.sqlCommand="UPDATE Employee SET SSN="+ssn+"WHERE Employee_ID="+ID;
+		this.sqlCommand="UPDATE Employee SET SSN="+ssn+" WHERE Employee_ID="+ID+";";
 		SQLInterface();
 	}
 	public void setAddress(String a) {
 		this.address=a;
-		this.sqlCommand="UPDATE Employee SET Address="+address+"WHERE Employee_ID="+ID;
+		this.sqlCommand="UPDATE Employee SET Address=\""+address+"\" WHERE Employee_ID="+ID+";";
 		SQLInterface();
 	}
 	public void setPhone(int n) {
 		this.phone=n;
-		this.sqlCommand="UPDATE Employee SET Phone_Number="+phone+"WHERE Employee_ID="+ID;
+		this.sqlCommand="UPDATE Employee SET Phone_Number="+phone+" WHERE Employee_ID="+ID+";";
 		SQLInterface();
 	}
 	public void createEmergencyContact(String name,String address, int num) {

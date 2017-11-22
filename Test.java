@@ -22,11 +22,12 @@ public class Test {
 			}
 			System.out.println();
 			a=new Employee(1);
-			a.createShift("2017-11-24", "8:00", "9:00");
-			a.createShift("2017-11-27", "12:00", "14:00");
+			a.createShift("2017-11-24", "08:00:00", "09:00:00");
+			a.createShift("2017-11-25", "22:00:00", "15:00:00");
+			a.createShift("2017-11-27", "12:00:00", "14:00:00");
 			a=new Employee(2);
-			a.createShift("2017-11-24", "8:00", "9:00");
-			a.createShift("2017-11-26", "12:00", "14:00");
+			a.createShift("2017-11-24", "18:00:00", "20:00:00");
+			a.createShift("2017-11-26", "12:00:00", "14:00:00");
 			System.out.println(a.getShifts().getAllShifts());
 	}
 }

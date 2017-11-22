@@ -21,19 +21,39 @@ public class EmployeeShifts {
 		this.shift=shift;
 		this.clockIn=clockIn;
 		this.clockOut=clockOut;
-		if(clockOut.compareTo(clockIn)<0) {
-			this.clockOut="23:59:59";
-			newShift(shift,clockOut);
-		}
 		this.EID=EID;
+		if(clockOut.compareTo(clockIn)<0) {
+			newShift(shift,clockOut);
+			this.clockOut="23:59:59";
+		}
 		timeWorked();
-		sqlCommand="insert into Shifts (Day,Shift,Shift_Clock_In,Shift_Clock_Out,Hours_Worked,employee_Employee_ID) values(DAYOFWEEK('"+shift+"'),'"+shift+"','"+clockIn+":00','"+clockOut+":00','"+workedTime.toDecimal()+"',"+EID+");";
+		sqlCommand="insert into Shifts (Day,Shift,Shift_Clock_In,Shift_Clock_Out,Hours_Worked,employee_Employee_ID) values(DAYOFWEEK(\""+shift+"\"),\""+shift+"\",\""+clockIn+"\",\""+clockOut+"\","+workedTime.toDecimal()+","+EID+");";
 		Connection conn=null;
 		try {
 			conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/Manager?useSSL=false","student","student");
 			Statement stmnt = conn.createStatement();
 			stmnt.executeUpdate(sqlCommand);
-			ResultSet reslt=stmnt.executeQuery("SELECT Day FROM Shifts WHERE employee_Employee_ID="+EID+" AND Shift="+shift+" AND Shift_Clock_In='"+clockIn+"';");
+			ResultSet reslt=stmnt.executeQuery("SELECT Day FROM Shifts WHERE employee_Employee_ID="+EID+" AND Shift=\""+shift+"\" AND Shift_Clock_In=\""+clockIn+"\";");
+			if(reslt.next())
+				day=reslt.getInt("Day");
+			conn.close();
+		}catch (Exception exc) {
+			exc.printStackTrace();
+		}
+	}
+	public EmployeeShifts(String shift, String clockOut, int EID ) {
+		this.shift=shift;
+		this.clockIn="00:00:00";
+		this.clockOut=clockOut;
+		this.EID=EID;
+		timeWorked();
+		sqlCommand="insert into Shifts (Day,Shift,Shift_Clock_In,Shift_Clock_Out,Hours_Worked,employee_Employee_ID) values(DAYOFWEEK("+shift+"),"+shift+",\""+clockIn+"\",\""+clockOut+"\","+workedTime.toDecimal()+","+EID+");";
+		Connection conn=null;
+		try {
+			conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/Manager?useSSL=false","student","student");
+			Statement stmnt = conn.createStatement();
+			stmnt.executeUpdate(sqlCommand);
+			ResultSet reslt=stmnt.executeQuery("SELECT Day FROM Shifts WHERE employee_Employee_ID="+EID+" AND Shift="+shift+" AND Shift_Clock_In=\""+clockIn+"\";");
 			if(reslt.next())
 				day=reslt.getInt("Day");
 			conn.close();
@@ -48,7 +68,7 @@ public class EmployeeShifts {
 		try {
 			conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/Manager?useSSL=false","student","student");
 			Statement stmnt = conn.createStatement();
-			ResultSet reslt=stmnt.executeQuery("SELECT * FROM Shifts WHERE employee_Employee_ID="+EID+" AND WHERE Day="+day);
+			ResultSet reslt=stmnt.executeQuery("SELECT * FROM Shifts WHERE employee_Employee_ID="+EID+" AND WHERE Day="+day+";");
 			if(reslt.next()) {
 				this.shift=reslt.getString("Shift");
 				this.clockIn=reslt.getString("Shift_Clock_In");
@@ -61,10 +81,10 @@ public class EmployeeShifts {
 		}
 	}
 	public void newShift(String shift,String clockOut) {
-		new EmployeeShifts("ADDDATE(("+shift+"), INTERVAL 1 DAY)","00:00:00",clockOut,EID);
+		new EmployeeShifts("ADDDATE(\""+shift+"\",  INTERVAL 1 DAY)",clockOut,EID);
 	}
 	public String getShift() {
-		return "This Employee works on this Date: "+shift+" from "+clockIn+":00 to "+clockOut;
+		return "This Employee works on this Date: "+shift+" from "+clockIn+" to "+clockOut;
 	}
 	public String getShiftsOnThisDay(int day) {
 		String all=null;
@@ -72,7 +92,7 @@ public class EmployeeShifts {
 		try {
 			conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/Manager?useSSL=false","student","student");
 			Statement stmnt = conn.createStatement();
-			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Shifts WHERE Shift="+day);
+			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Shifts WHERE Shift="+day+";");
 			all="";
 			while(reslt.next()) {
 				all+="\nDate: "+reslt.getString("Name");
@@ -95,7 +115,7 @@ public class EmployeeShifts {
 		try {
 			conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/Manager?useSSL=false","student","student");
 			Statement stmnt = conn.createStatement();
-			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Shifts WHERE Shift="+day+" AND employee_Employee_ID="+EID);
+			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Shifts WHERE Shift="+day+" AND employee_Employee_ID="+EID+";");
 			all="";
 			while(reslt.next()) {
 				all+="\nDate: "+reslt.getString("Name");
@@ -118,7 +138,7 @@ public class EmployeeShifts {
 		try {
 			conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/Manager?useSSL=false","student","student");
 			Statement stmnt = conn.createStatement();
-			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Shifts WHERE employee_Employee_ID="+EID);
+			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Shifts WHERE employee_Employee_ID="+EID+";");
 			all="";
 			while(reslt.next()) {
 				all+="\nDate: "+reslt.getString("Shift");
@@ -141,9 +161,11 @@ public class EmployeeShifts {
 		try {
 			conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/Manager?useSSL=false","student","student");
 			Statement stmnt = conn.createStatement();
-			ResultSet reslt = stmnt.executeQuery("SELECT Shift,Shift_Clock_In,Shift_Clock_Out FROM Shifts");
+			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Shifts;");
 			all="";
 			while(reslt.next()) {
+
+				all+="\nDay: "+reslt.getInt("Day");
 				all+="\nDate: "+reslt.getString("Shift");
 				all+="\nClock in time: "+reslt.getString("Shift_Clock_In");
 				all+="\nClock out time: "+reslt.getString("Shift_Clock_Out");
@@ -160,10 +182,10 @@ public class EmployeeShifts {
 	}
 	void setShift(String shift, String clockIn, String clockOut) {
 		this.shift=shift;
-		sqlCommand="UPDATE Shifts SET shift="+shift+", Shift_Clock_In="+clockIn+":00, Shift_Clock_Out"+clockOut+":00 WHERE employee_Employee_ID="+EID+" AND WHERE Day="+day;
+		sqlCommand="UPDATE Shifts SET shift=\""+shift+"\", Shift_Clock_In=\""+clockIn+"\", Shift_Clock_Out=\""+clockOut+"\" WHERE employee_Employee_ID="+EID+" AND WHERE Day="+day+";";
 	}
 	void setScheduleForTheYear() {
-		sqlCommand="CALL SetSchedule(DAYOFWEEK('"+shift+"'),'"+shift+"','"+clockIn+":00','"+clockOut+":00',"+EID+");";
+		sqlCommand="CALL SetSchedule(DAYOFWEEK(\""+shift+"\"),\""+shift+"\",\""+clockIn+"\",\""+clockOut+"\","+EID+");";
 		SQLInterface();
 	}
 	public void SQLInterface() {
@@ -200,7 +222,7 @@ public class EmployeeShifts {
 		System.out.println(inTime);
 		System.out.println(outTime);
 		System.out.println();
-
+		
 		Stack<Integer> inNums = new Stack<Integer>();
 		Stack<Integer> outNums = new Stack<Integer>();
 		int index = 0;
@@ -211,7 +233,6 @@ public class EmployeeShifts {
 			}
 		}
 		inNums.push(Integer.parseInt(inTime.substring(index, inTime.length())));
-
 		index = 0;
 		for (int i = 0; i < outTime.length(); i++) {
 			if(outTime.charAt(i) == ' ') {
@@ -220,13 +241,17 @@ public class EmployeeShifts {
 			}
 		}
 		outNums.push(Integer.parseInt(outTime.substring(index, outTime.length())));
-
-
-		int secDiff = (60*(outNums.pop() + 60*(outNums.pop()))) - (60*(inNums.pop() + 60*(inNums.pop())));
+		int secDiff;
+		if(inNums.size() == 2 && outNums.size() == 2)
+			secDiff = (60*(outNums.pop() + 60*(outNums.pop()))) - (60*(inNums.pop() + 60*(inNums.pop())));
+		else if(inNums.size() == 3 && outNums.size() == 3)
+			secDiff = (outNums.pop() + 60*(outNums.pop() + 60*(outNums.pop()))) - (inNums.pop() + 60*(inNums.pop() + 60*(inNums.pop())));
+		else
+			secDiff = (outNums.pop() + 60*(outNums.pop() + 60*(outNums.pop())));
 		System.out.println(secDiff);
 		int hours = secDiff/3600;
 		int mins = (secDiff%3600)/60;
-		int secs = (secDiff%3600);
+		int secs = (secDiff%3660)%60;
 
 
 		workedTime=new Time(hours,mins,secs);

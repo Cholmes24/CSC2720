@@ -18,7 +18,7 @@ public class EmergencyContact {
 		try {
 			conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/Manager?useSSL=false","student","student");
 			Statement stmnt = conn.createStatement();
-			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Emergency_Contact WHERE Emergency_Contact_ID="+ID);
+			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Emergency_Contact WHERE Emergency_Contact_ID="+ID+";");
 			if(reslt.next()) {
 				this.name=reslt.getString("Name");
 				this.address=reslt.getString("Address");
@@ -35,13 +35,13 @@ public class EmergencyContact {
 		this.address=address;
 		this.phone=num;
 		this.EID=EID;
-		sqlCommand="insert into Emergency_Contact (Name,Address,Phone_Number,employee_Employee_ID) values('"+name+"','"+address+"',"+num+","+EID+");";
+		sqlCommand="insert into Emergency_Contact (Name,Address,Phone_Number,employee_Employee_ID) values(\""+name+"\",\""+address+"\","+num+","+EID+");";
 		Connection conn=null;
 		try {
 			conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/Manager?useSSL=false","student","student");
 			Statement stmnt = conn.createStatement();
 			stmnt.executeUpdate(sqlCommand);
-			ResultSet reslt = stmnt.executeQuery("SELECT Emergency_Contact_ID FROM Emergency_Contact WHERE Phone_Number="+phone);
+			ResultSet reslt = stmnt.executeQuery("SELECT Emergency_Contact_ID FROM Emergency_Contact WHERE Phone_Number="+phone+";");
 			if(reslt.next()) {
 				this.ID=reslt.getInt("Emergency_Contact_ID");
 			}
@@ -61,7 +61,7 @@ public class EmergencyContact {
 		try {
 			conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/Manager?useSSL=false","student","student");
 			Statement stmnt = conn.createStatement();
-			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Emergency_Contact WHERE Emergency_Contact_ID="+1);
+			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Emergency_Contact WHERE Emergency_Contact_ID="+1+";");
 			if(reslt.next()) {
 				phone=reslt.getInt("Phone_Number");
 				name=reslt.getString("Name");
@@ -83,12 +83,12 @@ public class EmergencyContact {
 		try {
 			conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/Manager?useSSL=false","student","student");
 			Statement stmnt = conn.createStatement();
-			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Emergency_Contact WHERE employee_Employee_ID="+EID);
+			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Emergency_Contact WHERE employee_Employee_ID="+EID+";");
 			all="";
 			while(reslt.next()) {
-					all+="\nName: "+reslt.getString("Name");
-					all+="\nAddress: "+reslt.getString("Address");
-					all+="\nPhone Number: "+reslt.getInt("Phone_Number");
+				all+="\nName: "+reslt.getString("Name");
+				all+="\nAddress: "+reslt.getString("Address");
+				all+="\nPhone Number: "+reslt.getInt("Phone_Number");
 			}
 			conn.close();
 		}catch (Exception exc) {
@@ -102,17 +102,17 @@ public class EmergencyContact {
 	}
 	public void setName(String name) {
 		this.name=name;
-		this.sqlCommand="UPDATE Emergency_Contact SET Name="+name+"WHERE Emergency_Contact_ID="+ID;
+		this.sqlCommand="UPDATE Emergency_Contact SET Name=\""+name+"\" WHERE Emergency_Contact_ID="+ID+";";
 		SQLInterface();
 	}
 	public void setAddress(String address) {
 		this.address=address;
-		this.sqlCommand="UPDATE Emergency_Contact SET Address="+address+"WHERE Emergency_Contact_ID="+ID;
+		this.sqlCommand="UPDATE Emergency_Contact SET Address=\""+address+"\" WHERE Emergency_Contact_ID="+ID+";";
 		SQLInterface();
 	}
 	public void setPhone(int phone) {
 		this.phone=phone;
-		this.sqlCommand="UPDATE Emergency_Contact SET Phone_Number="+phone+"WHERE Emergency_Contact_ID="+ID;
+		this.sqlCommand="UPDATE Emergency_Contact SET Phone_Number="+phone+" WHERE Emergency_Contact_ID="+ID+";";
 		SQLInterface();
 	}
 	public void SQLInterface() {
