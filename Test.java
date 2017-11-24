@@ -9,10 +9,10 @@ public class Test {
 			System.out.println(a.getFullTitle());
 			a=new Employee(1);
 			a.setFirstName("Cameron");
-			a=new Employee ("Mario","Mushroom","Hero",000000001,"1 Mushroom Kingdom", 123456789);
+			a=new Employee ("Mario","Mushroom","Hero",000000001,"1 Mushroom Kingdom", "123456789");
 			System.out.println(a.getFullTitle());
-			a.createEmergencyContact("My Guy","123 Mushroom Kingdom", 123456789);
-			a.createEmergencyContact("shy Guy","321 Mushroom Kingdom", 000000000);
+			a.createEmergencyContact("My Guy","123 Mushroom Kingdom", "1234567891");
+			a.createEmergencyContact("shy Guy","321 Mushroom Kingdom", "000000000");
 			System.out.println(a.getContact());
 			System.out.println(a.getEmergencyContact().getPrimaryContact());
 			System.out.println(a.getEmergencyContact().getAllContacts());

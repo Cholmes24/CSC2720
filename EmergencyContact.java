@@ -8,7 +8,7 @@ import java.sql.Statement;
 public class EmergencyContact {
 	private String name;
 	private String address;
-	private int phone;
+	private String phone;
 	private int ID;
 	private int EID;
 	private String sqlCommand;
@@ -22,7 +22,7 @@ public class EmergencyContact {
 			if(reslt.next()) {
 				this.name=reslt.getString("Name");
 				this.address=reslt.getString("Address");
-				this.phone=reslt.getInt("Phone_Number");
+				this.phone=reslt.getString("Phone_Number");
 				this.EID=reslt.getInt("employee_Employee_ID");
 			}
 			conn.close();
@@ -30,18 +30,18 @@ public class EmergencyContact {
 			exc.printStackTrace();
 		}
 	}
-	public EmergencyContact(String name, String address, int num, int EID ) {
+	public EmergencyContact(String name, String address, String num, int EID ) {
 		this.name=name;
 		this.address=address;
 		this.phone=num;
 		this.EID=EID;
-		sqlCommand="insert into Emergency_Contact (Name,Address,Phone_Number,employee_Employee_ID) values(\""+name+"\",\""+address+"\","+num+","+EID+");";
+		sqlCommand="insert into Emergency_Contact (Name,Address,Phone_Number,employee_Employee_ID) values(\""+name+"\",\""+address+"\",\""+num+"\","+EID+");";
 		Connection conn=null;
 		try {
 			conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/Manager?useSSL=false","student","student");
 			Statement stmnt = conn.createStatement();
 			stmnt.executeUpdate(sqlCommand);
-			ResultSet reslt = stmnt.executeQuery("SELECT Emergency_Contact_ID FROM Emergency_Contact WHERE Phone_Number="+phone+";");
+			ResultSet reslt = stmnt.executeQuery("SELECT Emergency_Contact_ID FROM Emergency_Contact WHERE Phone_Number=\""+phone+"\";");
 			if(reslt.next()) {
 				this.ID=reslt.getInt("Emergency_Contact_ID");
 			}
@@ -54,7 +54,7 @@ public class EmergencyContact {
 		return "Name: "+name+"\nADDRESS: "+address+"\nPhone Number: "+phone;
 	}
 	public String getPrimaryContact() {
-		int phone=0;
+		String phone=null;
 		String name=null;
 		String address=null;
 		Connection conn=null;
@@ -63,7 +63,7 @@ public class EmergencyContact {
 			Statement stmnt = conn.createStatement();
 			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Emergency_Contact WHERE Emergency_Contact_ID="+1+";");
 			if(reslt.next()) {
-				phone=reslt.getInt("Phone_Number");
+				phone=reslt.getString("Phone_Number");
 				name=reslt.getString("Name");
 				address=reslt.getString("Address");
 			}
@@ -71,7 +71,7 @@ public class EmergencyContact {
 		}catch (Exception exc) {
 			exc.printStackTrace();
 		}
-		if(phone==0||name==null||address==null) {
+		if(phone==null||name==null||address==null) {
 			return"Emergency Contact Incomplete";
 		}else {
 			return "Name: "+name+"\nADDRESS: "+address+"\nPHONE NUMBER: "+phone;
@@ -88,7 +88,7 @@ public class EmergencyContact {
 			while(reslt.next()) {
 				all+="\nName: "+reslt.getString("Name");
 				all+="\nAddress: "+reslt.getString("Address");
-				all+="\nPhone Number: "+reslt.getInt("Phone_Number");
+				all+="\nPhone Number: "+reslt.getString("Phone_Number");
 			}
 			conn.close();
 		}catch (Exception exc) {
@@ -110,9 +110,9 @@ public class EmergencyContact {
 		this.sqlCommand="UPDATE Emergency_Contact SET Address=\""+address+"\" WHERE Emergency_Contact_ID="+ID+";";
 		SQLInterface();
 	}
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone=phone;
-		this.sqlCommand="UPDATE Emergency_Contact SET Phone_Number="+phone+" WHERE Emergency_Contact_ID="+ID+";";
+		this.sqlCommand="UPDATE Emergency_Contact SET Phone_Number=\""+phone+"\" WHERE Emergency_Contact_ID="+ID+";";
 		SQLInterface();
 	}
 	public void SQLInterface() {

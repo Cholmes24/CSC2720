@@ -7,7 +7,7 @@ public class Employee {
 	private String title;
 	private int ssn;
 	private String address;
-	private int phone;
+	private String phone;
 	private EmergencyContact a;
 	private EmployeeShifts b;
 	private String sqlCommand;
@@ -25,6 +25,8 @@ public class Employee {
 				this.firstName=reslt.getString("First_Name");
 				this.title=reslt.getString("Job_Title");
 				this.ssn=reslt.getInt("SSN");
+				this.address=reslt.getString("Address");
+				this.phone=reslt.getString("Phone_Number");
 			}
 			conn.close();
 		}catch (Exception exc) {
@@ -51,14 +53,14 @@ public class Employee {
 			exc.printStackTrace();
 		}
 	}
-	public Employee(String lastName,String firstName,String title,int ssn, String address, int phone) {
+	public Employee(String lastName,String firstName,String title,int ssn, String address, String phone) {
 		this.lastName=lastName;
 		this.firstName=firstName;
 		this.title=title;
 		this.ssn=ssn;
 		this.address=address;
 		this.phone=phone;
-		sqlCommand="INSERT INTO Employee (Last_Name,First_Name,Job_Title,SSN,Address,Phone_Number) values(\""+lastName+"\",\""+firstName+"\",\""+title+"\","+ssn+",\""+address+"\","+phone+");";
+		sqlCommand="INSERT INTO Employee (Last_Name,First_Name,Job_Title,SSN,Address,Phone_Number) values(\""+lastName+"\",\""+firstName+"\",\""+title+"\","+ssn+",\""+address+"\",\""+phone+"\");";
 		Connection conn=null;
 		try {
 			conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/Manager?useSSL=false","student","student");
@@ -76,8 +78,23 @@ public class Employee {
 	public int getID() {
 		return ID;
 	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public String getTitle() {
+		return title;
+	}
 	public int getSSN() {
 		return ssn;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public String getPhone() {
+		return phone;
 	}
 	public String getContact() {
 		return "Name: "+firstName+" "+lastName+"\nPHONE NUMBER: "+phone+"\nADDRESS: "+address;
@@ -132,12 +149,12 @@ public class Employee {
 		this.sqlCommand="UPDATE Employee SET Address=\""+address+"\" WHERE Employee_ID="+ID+";";
 		SQLInterface();
 	}
-	public void setPhone(int n) {
+	public void setPhone(String n) {
 		this.phone=n;
-		this.sqlCommand="UPDATE Employee SET Phone_Number="+phone+" WHERE Employee_ID="+ID+";";
+		this.sqlCommand="UPDATE Employee SET Phone_Number=\""+phone+"\" WHERE Employee_ID="+ID+";";
 		SQLInterface();
 	}
-	public void createEmergencyContact(String name,String address, int num) {
+	public void createEmergencyContact(String name,String address,String num) {
 		a=new EmergencyContact(name,address,num,ID);
 	}
 	public EmergencyContact getEmergencyContact() {

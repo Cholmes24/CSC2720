@@ -219,9 +219,6 @@ public class EmployeeShifts {
 	public void timeWorked() {
 		String inTime = clockIn.replaceAll("[\\D]",  " ");
 		String outTime = clockOut.replaceAll("[\\D]", " ");
-		System.out.println(inTime);
-		System.out.println(outTime);
-		System.out.println();
 		
 		Stack<Integer> inNums = new Stack<Integer>();
 		Stack<Integer> outNums = new Stack<Integer>();
@@ -248,14 +245,12 @@ public class EmployeeShifts {
 			secDiff = (outNums.pop() + 60*(outNums.pop() + 60*(outNums.pop()))) - (inNums.pop() + 60*(inNums.pop() + 60*(inNums.pop())));
 		else
 			secDiff = (outNums.pop() + 60*(outNums.pop() + 60*(outNums.pop())));
-		System.out.println(secDiff);
 		int hours = secDiff/3600;
 		int mins = (secDiff%3600)/60;
 		int secs = (secDiff%3660)%60;
 
 
 		workedTime=new Time(hours,mins,secs);
-		System.out.println(hours+":"+mins+":"+secs+"\n"+workedTime.toDecimal());
 	}
 }
 
