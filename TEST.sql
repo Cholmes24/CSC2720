@@ -1,0 +1,14 @@
+SELECT MAX(Employee_ID) FROM EMPLOYEE;
+SELECT Employee_ID FROM EMPLOYEE;
+select *from employee;
+select *from emergency_contact;
+select *from shifts;
+select *from Salary;
+SELECT COUNT(Employee_ID) FROM Employee;
+SELECT Pay FROM Salary WHERE Title= (SELECT Job_Title FROM Employee WHERE Employee_ID=5);
+SET FOREIGN_KEY_CHECKS = 0; 
+TRUNCATE table employee; 
+TRUNCATE table emergency_contact; 
+TRUNCATE table shifts;
+TRUNCATE table Salary;
+SET FOREIGN_KEY_CHECKS = 1;
