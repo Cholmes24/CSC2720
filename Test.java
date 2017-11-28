@@ -1,4 +1,4 @@
-package classes;
+package Source;
 
 
 public class Test {

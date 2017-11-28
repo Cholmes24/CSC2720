@@ -1,4 +1,4 @@
-package classes;
+package Source;
 import java.sql.*;
 public class MYConnection {
 	private static String driver= "com.mysql.jdbc.Driver";

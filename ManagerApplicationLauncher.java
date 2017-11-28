@@ -1,4 +1,4 @@
-package classes;
+package Source;
 import java.util.Arrays;
 
 import javafx.application.*;

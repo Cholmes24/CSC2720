@@ -1,4 +1,4 @@
-package classes;
+package Source;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

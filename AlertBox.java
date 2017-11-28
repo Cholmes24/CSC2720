@@ -1,4 +1,4 @@
-package classes;
+package Source;
 
 import javafx.stage.*;
 import javafx.scene.*;
