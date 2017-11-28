@@ -86,7 +86,6 @@ public class EmployeeShifts {
 		this.firstName=firstName;
 		timeWorked();
 		SalaryEarnings();
-		System.out.print(salaryEarnings);
 		TotalEarnings();
 		sqlCommand="insert into Shifts (Day,Shift,Shift_Clock_In,Shift_Clock_Out,Hours_Worked,employee_Employee_ID,LN,FN,Salary,Total_Earnings) values(DAYOFWEEK("+shift+"),"+shift+",\""+clockIn+"\",\""+clockOut+"\","+workedTime.getTime()+","+EID+",\""+lastName+"\",\""+firstName+"\","+salaryEarnings+","+totalEarnings+");";
 		Connection conn=null;
@@ -349,7 +348,6 @@ public class EmployeeShifts {
 		else {
 			working = false;
 			clockOut = df.format(calobj.getTime());
-			System.out.println(workedTime.toString());
 			return "They end at: "+clockOut;
 		}
 	}

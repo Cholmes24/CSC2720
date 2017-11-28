@@ -15,9 +15,9 @@ import javafx.scene.control.ChoiceBox;
 public class ManagerApplicationLauncher extends Application {
 
 	Stage window;
-	Scene Master, EmployeeCreator, EmployeeInstantiated, JobCreator, JobInstantiated, EmployeeRecords, EmployeeSchedule, EmployeeContacts,ShiftCreator,ContactCreator,JobCreatorPoPup,JobInstantiatedPopUp,ShiftInstantiated;
-	Label firstNameVaid,lastNameValid, SSNValid=new Label(""), phoneValid,LastNameValid=new Label(""),FirstNameValid=new Label(""),PhoneValid=new Label(""), FirstNameValidES=new Label(""),LastNameValidES=new Label(""),EIDESValid=new Label("");
-	TextField JobTitleField,PayrollField,LastNameField, FirstNameField, TitleField, SSNField, AddressField, PhoneField,JobTitleFieldPopUp,PayrollFieldPopUp,LastNameFieldES,FirstNameFieldES,TitleFieldES,EIDESField;
+	Scene Master, EmployeeCreator, EmployeeInstantiated, JobCreator, JobInstantiated, EmployeeRecords, EmployeeSchedule, EmployeeContacts,ShiftCreator,ContactCreator,JobCreatorPoPup,JobInstantiatedPopUp,ShiftInstantiated,ContactInstantiated;
+	Label firstNameVaid,lastNameValid, SSNValid=new Label(""), phoneValid,LastNameValid=new Label(""),FirstNameValid=new Label(""),PhoneValid=new Label(""), FirstNameValidES=new Label(""),LastNameValidES=new Label(""),EIDESValid=new Label(""),PhoneValidCC= new Label(""),EIDCCValid= new Label("");
+	TextField JobTitleField,PayrollField,LastNameField, FirstNameField, TitleField, SSNField, AddressField, PhoneField,JobTitleFieldPopUp,PayrollFieldPopUp,LastNameFieldES,FirstNameFieldES,TitleFieldES,EIDESField,PhoneFieldCC,NameFieldCC,AddressFieldCC,EIDCC,EIDCCField;
 	String clockinh="";
 	String clockinm="";
 	String clockins="";
@@ -172,7 +172,7 @@ public class ManagerApplicationLauncher extends Application {
 						LastNameValid.setText("Must only contain letters ");
 				}
 				else
-					LastNameValid.setText("seems good!");
+					LastNameValid.setText("");
 		});
 		Label FirstNameText = new Label("First Name*:");
 		FirstNameField= new TextField();
@@ -211,7 +211,7 @@ public class ManagerApplicationLauncher extends Application {
 		PhoneField.setOnKeyReleased(e -> {
 
 			if(PhoneField.getText().length()<9||PhoneField.getText().length()>12) {
-				PhoneValid.setText("Must Be 10 Digits");
+				PhoneValid.setText("Must Be 9-12 Digits");
 			}
 			else {
 				PhoneValid.setText("");
@@ -242,7 +242,9 @@ public class ManagerApplicationLauncher extends Application {
 					}
 					new Employee(lastName,firstName,title,ssn,address,phone);
 					LastNameField.clear();
+					LastNameValid.setText("");
 					FirstNameField.clear();
+					FirstNameValid.setText("");
 					TitleField.clear();
 					SSNField.clear();
 					AddressField.clear();
@@ -252,7 +254,7 @@ public class ManagerApplicationLauncher extends Application {
 					createJob("Error","INVALID!!! That Job Does Not Exist.\n Would You Like To Create This Job:\n"+TitleField.getText(),TitleField.getText());
 				}
 			}else {
-				AlertBox.display("Error","INVALID!!! There Are Fields That Can't Be Empty");
+				AlertBox.display("Error","INVALID!!! There Are Fields That Contain Errors");
 			}
 		});
 
@@ -269,7 +271,7 @@ public class ManagerApplicationLauncher extends Application {
 		Label Success= new Label("The Employee Information Has Been Stored");
 		//EmployeeInstantiated LayOut
 		VBox layout4 = new VBox();
-		layout4.getChildren().addAll(ReturnButton3,Success);
+		layout4.getChildren().addAll(Success,ReturnButton3);
 		EmployeeInstantiated = new Scene(layout4, 600, 300);
 		//Neel use this format for generating tables
 		Button ReturnButton4 = new Button("Return to Main Menu");
@@ -345,7 +347,7 @@ public class ManagerApplicationLauncher extends Application {
 			datey+=newValue+"";
 		});
 		ChoiceBox<Integer> month = new ChoiceBox<>();
-		for(int i=1;i<13;i++) {
+		for(int i=0;i<12;i++) {
 			month.getItems().add(i);
 		}
 		ChoiceBox<Integer> day = new ChoiceBox<>();
@@ -387,39 +389,25 @@ public class ManagerApplicationLauncher extends Application {
 		});
 		Button SubmitES= new Button("Submit");
 		SubmitES.setOnAction(e -> {
-			if(!EIDESField.getText().equals("")&&!EIDESField.getText().equals(null)) {
+			if(!EIDESField.getText().equals("")&&!EIDESField.getText().equals(null)&&day.getValue()!=null&&month.getValue()!=null&&year.getValue()!=null&&ShiftHES.getValue()!=null&&ShiftMES.getValue()!=null&&ShiftSES.getValue()!=null&&ShiftHOES.getValue()!=null&&ShiftMOES.getValue()!=null&&ShiftSOES.getValue()!=null) {
 				if(containsOnlyNumbers(EIDESField)) {
 					if(doesThatEIDExist(EIDESField)) {
 						new EmployeeShifts(datey+datem+dated,clockinh+clockinm+clockins,clockouth+clockoutm+clockouts,Integer.valueOf(EIDESField.getText()),new Employee(Integer.valueOf(EIDESField.getText())).getLastName(),new Employee(Integer.valueOf(EIDESField.getText())).getFirstName());
 						window.setScene(ShiftInstantiated);
 						window.setTitle("Shift Creator");
 					}else {
-						EIDESValid.setText("That Employee ID Does Not Exist!");
-						LastNameTextES.setText("Last Name: ");
-						FirstNameTextES.setText("First Name: ");
+						AlertBox.display("Error!!!","That Employee ID Does Not Exist!");
+					
 					}
 				}else {
-					EIDESValid.setText("Must only contain numbers");
-					LastNameTextES.setText("Last Name: ");
-					FirstNameTextES.setText("First Name: ");
+					AlertBox.display("Error!!!","The Eid Must only contain numbers");
 				}
 			}else {
-				EIDESValid.setText("");
-				LastNameTextES.setText("Last Name: ");
-				FirstNameTextES.setText("First Name: ");
+				AlertBox.display("Error!!!","All Fields Are Required");
 
 			}
 			
 		});
-		Label ShiftCreated= new Label("The Shift information has been stored");
-		Button ReturnButtonESI = new Button("Return to Main Menu");
-		ReturnButtonESI.setOnAction(e -> {
-			window.setScene(Master);
-			window.setTitle("Manager Application");
-		});
-		VBox layoutESI = new VBox();
-		layoutESI.getChildren().addAll(ShiftCreated,ReturnButtonESI);
-		ShiftInstantiated= new Scene(layoutESI, 600, 300);
 
 		//EmployeeCreator LayOut
 		HBox layoutTimeInES = new HBox();
@@ -432,6 +420,16 @@ public class ManagerApplicationLauncher extends Application {
 		layoutES.getChildren().addAll(RequiredFieldsES,layoutTimeInES,layoutTimeOutES,ShiftLabES,layoutDate,EIDESLab,EIDESField,EIDESValid,LastNameTextES,FirstNameTextES,SubmitES,ReturnButtonES);
 		layoutES.setSpacing(10);
 		ShiftCreator = new Scene(layoutES, 400, 600);
+		
+		Label ShiftCreated= new Label("The Shift information has been stored");
+		Button ReturnButtonESI = new Button("Return to Main Menu");
+		ReturnButtonESI.setOnAction(e -> {
+			window.setScene(Master);
+			window.setTitle("Manager Application");
+		});
+		VBox layoutESI = new VBox();
+		layoutESI.getChildren().addAll(ShiftCreated,ReturnButtonESI);
+		ShiftInstantiated= new Scene(layoutESI, 600, 300);
 
 		TableColumn<Employee, Integer> EIDColumn = new TableColumn<>("Employee ID");
 		EIDColumn.setMinWidth(200);
@@ -504,13 +502,113 @@ public class ManagerApplicationLauncher extends Application {
 		VBox layout6 = new VBox();
 		layout6.getChildren().addAll(EmployeeInfo,ReturnButton5);
 		EmployeeSchedule = new Scene(layout6);
+		
+		Label LastNameTextCC = new Label("Last Name:");
+		Label FirstNameTextCC = new Label("First Name:");
+		Label NameTextCC= new Label("Name");
+		NameFieldCC= new TextField();
+		Label AddressTextCC = new Label("Address:");
+		AddressFieldCC= new TextField();
+		Label PhoneTextCC = new Label("Phone Number:");
+		PhoneFieldCC= new TextField();
+		Label PhoneValidCC= new Label("");
+		PhoneFieldCC.setOnKeyReleased(e -> {
 
+			if(PhoneFieldCC.getText().length()<9||PhoneFieldCC.getText().length()>12) {
+				PhoneValidCC.setText("Must Be 9-12 Digits");
+			}
+			else {
+				PhoneValidCC.setText("");
+			}
+			String temp = PhoneValidCC.getText();
+
+			for(int i=0; i <PhoneFieldCC.getText().length();i++) {
+				if((int) PhoneFieldCC.getText().charAt(i)<48||(int)PhoneFieldCC.getText().charAt(i)>58) {
+					PhoneValidCC.setText("Must only contain numbers");
+				}
+				else
+					PhoneValidCC.setText(temp);
+			}
+
+		});
+		Label EIDCCLab= new Label("Enter The Employee ID");
+		EIDCC= new TextField();
+		EIDCC.setOnKeyReleased(e -> {
+			if(!EIDCC.getText().equals("")&&!EIDCC.getText().equals(null)) {
+				if(containsOnlyNumbers(EIDCC)) {
+					if(doesThatEIDExist(EIDCC)) {
+						EIDCCValid.setText("Valid!");
+						LastNameTextCC.setText("Last Name: "+new Employee(Integer.valueOf(EIDCC.getText())).getLastName());
+						FirstNameTextCC.setText("First Name: "+new Employee(Integer.valueOf(EIDCC.getText())).getFirstName());
+					}else {
+						EIDCCValid.setText("That Employee ID Does Not Exist!");
+						LastNameTextCC.setText("Last Name: ");
+						FirstNameTextCC.setText("First Name: ");
+					}
+				}else {
+					EIDCCValid.setText("Must only contain numbers");
+					LastNameTextCC.setText("Last Name: ");
+					FirstNameTextCC.setText("First Name: ");
+				}
+			}else {
+				EIDCCValid.setText("");
+				LastNameTextCC.setText("Last Name: ");
+				FirstNameTextCC.setText("First Name: ");
+
+			}
+		});
+		Button SubmitCC= new Button("Submit");
+		SubmitCC.setOnAction(e -> {
+			if (PhoneValidityCheck(PhoneFieldCC)&&PhoneValidityCheck(PhoneFieldCC)&&notNull(NameFieldCC,AddressFieldCC,PhoneFieldCC,EIDCC)) {
+				if(containsOnlyNumbers(EIDCC)) {
+					if(doesThatEIDExist(EIDCC)) {
+					String name = NameFieldCC.getText(); 
+					String address = AddressFieldCC.getText();
+					String phone=null;
+					if(!PhoneFieldCC.getText().isEmpty()) {
+						phone = PhoneFieldCC.getText();
+					}
+					new EmergencyContact(name,address,phone,Integer.valueOf(EIDCC.getText()));
+					NameFieldCC.clear();
+					AddressFieldCC.clear();
+					PhoneFieldCC.clear();
+					EIDCC.clear();
+					window.setScene(ContactInstantiated);
+					window.setTitle("Shift Creator");
+				}else {
+					AlertBox.display("Error!!!","That Employee ID Does Not Exist!");
+				
+				}
+			}else {
+				AlertBox.display("Error!!!","The Eid Must only contain numbers");
+			}
+			}else {
+				AlertBox.display("Error","INVALID!!! There Are Errors in the Fields");
+			}
+		});
+		Label ContactSuccess=new Label("The Contact has been successfully Stored");
+		Button ReturnButtonEC = new Button("Return to Main Menu");
+		ReturnButtonEC.setOnAction(e ->{
+			window.setScene(Master);
+			window.setTitle("Manager Application");
+		});
+		VBox layoutEC= new VBox();
+		layoutEC.getChildren().addAll(ContactSuccess,ReturnButtonEC);
+		ContactInstantiated= new Scene(layoutEC, 400,400);
 		Button ReturnButton6 = new Button("Return to Main Menu");
 		ReturnButton6.setOnAction(e ->{
 			window.setScene(Master);
 			window.setTitle("Manager Application");
 		});
-
+		Button ReturnButtonCC = new Button("Return to Main Menu");
+		ReturnButtonCC.setOnAction(e ->{
+			window.setScene(Master);
+			window.setTitle("Manager Application");
+		});
+		VBox layoutCC = new VBox();
+		layoutCC.getChildren().addAll(NameTextCC,NameFieldCC,AddressTextCC,AddressFieldCC,PhoneTextCC,PhoneFieldCC,PhoneValidCC,EIDCCLab,EIDCC,EIDCCValid,LastNameTextCC,FirstNameTextCC,SubmitCC,ReturnButtonCC);
+		ContactCreator= new Scene(layoutCC, 400,400);
+		
 		TableColumn<EmergencyContact, String> contactIDColumn = new TableColumn<>("Contact ID");
 		contactIDColumn.setMinWidth(200);
 		contactIDColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
