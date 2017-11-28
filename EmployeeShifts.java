@@ -31,7 +31,8 @@ public class EmployeeShifts {
 		Connection conn=null;
 		try {
 			Class.forName(MYConnection.getDriver());
-			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			Statement stmnt = conn.createStatement();
+			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			
+			Statement stmnt = conn.createStatement();
 			ResultSet reslt=stmnt.executeQuery("SELECT * FROM Shifts WHERE employee_Employee_ID="+EID+" AND Day="+day+";");
 			if(reslt.next()) {
 				this.clockOut=reslt.getString("Shift_Clock_Out");
@@ -65,7 +66,8 @@ public class EmployeeShifts {
 		Connection conn=null;
 		try {
 			Class.forName(MYConnection.getDriver());
-			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			Statement stmnt = conn.createStatement();
+			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			
+			Statement stmnt = conn.createStatement();
 			stmnt.executeUpdate(sqlCommand);
 			ResultSet reslt=stmnt.executeQuery("SELECT Day FROM Shifts WHERE Shift=\""+shift+"\" AND Shift_Clock_In=\""+clockIn+"\" AND employee_Employee_ID="+EID+";");
 			if(reslt.next())
@@ -90,7 +92,8 @@ public class EmployeeShifts {
 		Connection conn=null;
 		try {
 			Class.forName(MYConnection.getDriver());
-			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			Statement stmnt = conn.createStatement();
+			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			
+			Statement stmnt = conn.createStatement();
 			stmnt.executeUpdate(sqlCommand);
 			ResultSet reslt=stmnt.executeQuery("SELECT Day FROM Shifts WHERE employee_Employee_ID="+EID+" AND Shift="+shift+" AND Shift_Clock_In=\""+clockIn+"\";");
 			if(reslt.next())
@@ -138,8 +141,9 @@ public class EmployeeShifts {
 		Connection conn=null;
 		try {
 			Class.forName(MYConnection.getDriver());
-			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			Statement stmnt = conn.createStatement();
-			ResultSet reslt = stmnt.executeQuery("SELECT Pay FROM Salary WHERE Title= (SELECT Job_Title FROM Employee WHERE Employee_ID="+EID+");");
+			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			
+			Statement stmnt = conn.createStatement();
+			ResultSet reslt = stmnt.executeQuery("SELECT Pay FROM Job WHERE Title= (SELECT Job_Title FROM Employee WHERE Employee_ID="+EID+");");
 			if(reslt.next()) {
 				pay=reslt.getDouble("pay");
 			}
@@ -154,7 +158,8 @@ public class EmployeeShifts {
 		Connection conn=null;
 		try {
 			Class.forName(MYConnection.getDriver());
-			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			Statement stmnt = conn.createStatement();
+			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			
+			Statement stmnt = conn.createStatement();
 			ResultSet reslt = stmnt.executeQuery("SELECT Salary FROM Shifts WHERE employee_Employee_ID="+EID+";");
 			while(reslt.next()) {
 				pay+=reslt.getDouble("Salary");
@@ -170,7 +175,8 @@ public class EmployeeShifts {
 		Connection conn=null;
 		try {
 			Class.forName(MYConnection.getDriver());
-			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			Statement stmnt = conn.createStatement();
+			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			
+			Statement stmnt = conn.createStatement();
 			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Shifts WHERE Shift="+day+";");
 			all="";
 			while(reslt.next()) {
@@ -193,7 +199,8 @@ public class EmployeeShifts {
 		Connection conn=null;
 		try {
 			Class.forName(MYConnection.getDriver());
-			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			Statement stmnt = conn.createStatement();
+			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			
+			Statement stmnt = conn.createStatement();
 			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Shifts WHERE Shift="+day+" AND employee_Employee_ID="+EID+";");
 			all="";
 			while(reslt.next()) {
@@ -216,7 +223,8 @@ public class EmployeeShifts {
 		Connection conn=null;
 		try {
 			Class.forName(MYConnection.getDriver());
-			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			Statement stmnt = conn.createStatement();
+			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			
+			Statement stmnt = conn.createStatement();
 			ResultSet reslt = stmnt.executeQuery("SELECT * FROM Shifts WHERE employee_Employee_ID="+EID+";");
 			all="";
 			while(reslt.next()) {
@@ -240,7 +248,8 @@ public class EmployeeShifts {
 		int i=0;
 		try {
 			Class.forName(MYConnection.getDriver());
-			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			Statement stmnt = conn.createStatement();
+			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			
+			Statement stmnt = conn.createStatement();
 			ResultSet reslt = stmnt.executeQuery("SELECT COUNT(*) FROM Shifts;");
 			if(reslt.next()) 
 				a= new EmployeeShifts [reslt.getInt("COUNT(*)")];
@@ -320,7 +329,8 @@ public class EmployeeShifts {
 		Connection conn=null;
 		try {
 			Class.forName(MYConnection.getDriver());
-			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			Statement stmnt = conn.createStatement();
+			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			
+			Statement stmnt = conn.createStatement();
 			stmnt.executeUpdate(sqlCommand);
 			conn.close();
 		}catch (Exception exc) {

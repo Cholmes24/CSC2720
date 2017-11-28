@@ -13,11 +13,12 @@ public class Job {
 	}
 	public Job(String job) {
 		this.job=job;
-		sqlCommand="SELECT Pay FROM Salary WHERE Title=\""+job+"\";";
+		sqlCommand="SELECT Pay FROM Job WHERE Title=\""+job+"\";";
 		Connection conn=null;
 		try {
 			Class.forName(MYConnection.getDriver());
-			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			Statement stmnt = conn.createStatement();
+			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			
+			Statement stmnt = conn.createStatement();
 			ResultSet reslt = stmnt.executeQuery(sqlCommand);
 			if(reslt.next()) {
 			this.pay=reslt.getDouble("Pay");
@@ -30,11 +31,12 @@ public class Job {
 	public Job(String job, double pay) {
 		this.job=job;
 		this.pay=pay;
-		sqlCommand="INSERT INTO Salary (Title,Pay) values(\""+job+"\","+pay+");";
+		sqlCommand="INSERT INTO Job (Title,Pay) values(\""+job+"\","+pay+");";
 		Connection conn=null;
 		try {
 			Class.forName(MYConnection.getDriver());
-			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			Statement stmnt = conn.createStatement();
+			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			
+			Statement stmnt = conn.createStatement();
 			stmnt.executeUpdate(sqlCommand);
 			conn.close();
 		}catch (Exception exc) {
@@ -54,10 +56,10 @@ public class Job {
 		try {
 			Class.forName(MYConnection.getDriver());
 			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			Statement stmnt = conn.createStatement();
-			ResultSet reslt = stmnt.executeQuery("SELECT COUNT(Title) FROM Salary;");
+			ResultSet reslt = stmnt.executeQuery("SELECT COUNT(Title) FROM Job ;");
 			if(reslt.next()) {
 				a=new Job [reslt.getInt("COUNT(Title)")];
-				reslt = stmnt.executeQuery("SELECT Title FROM Salary;");
+				reslt = stmnt.executeQuery("SELECT Title FROM Job ;");
 				while(reslt.next()) {
 					a [i]=new Job (reslt.getString("Title"));
 					i++;
@@ -70,18 +72,19 @@ public class Job {
 		return a;
 	}
 	public void setJob(String job) {
-		sqlCommand="UPDATE Salary SET Title=\""+job+"WHERE Title=\""+this.job+"\";";
+		sqlCommand="UPDATE Job SET Title=\""+job+"WHERE Title=\""+this.job+"\";";
 		this.job=job;
 	}
 	public void setPay(double pay) {
 		this.pay=pay;
-		sqlCommand="UPDATE Salary SET pay=\""+pay+"WHERE Title=\""+job+"\";";
+		sqlCommand="UPDATE Job SET pay=\""+pay+"WHERE Title=\""+job+"\";";
 	}
 	public void SQLInterface() {
 		Connection conn=null;
 		try {
 			Class.forName(MYConnection.getDriver());
-			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			Statement stmnt = conn.createStatement();
+			conn = DriverManager.getConnection(MYConnection.getUrl(),MYConnection.getUsername(),MYConnection.getPassword());			
+			Statement stmnt = conn.createStatement();
 			stmnt.executeUpdate(sqlCommand);
 			conn.close();
 		}catch (Exception exc) {
